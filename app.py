@@ -21,7 +21,10 @@ for key, val in default_keys.items():
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
 # CEO 이미지 삽입
-st.image("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png", use_container_width=True)
+st.image(
+    "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png",
+    use_container_width=True
+)
 
 # Step 0: 업종 선택
 if st.session_state.step == 0:
