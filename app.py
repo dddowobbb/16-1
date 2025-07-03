@@ -3,29 +3,29 @@ import random
 import matplotlib.pyplot as plt
 
 # 세션 상태 초기화
-if "step" not in st.session_state:
-    st.session_state.step = 0
-if "industry" not in st.session_state:
-    st.session_state.industry = ""
-if "company_name" not in st.session_state:
-    st.session_state.company_name = ""
-if "strategy" not in st.session_state:
-    st.session_state.strategy = ""
-if "event" not in st.session_state:
-    st.session_state.event = ""
-if "revenue" not in st.session_state:
-    st.session_state.revenue = []
+default_keys = {
+    "step": 0,
+    "industry": "",
+    "company_name": "",
+    "strategy": "",
+    "event": "",
+    "revenue": [],
+    "industry_confirmed": False
+}
 
+for key, val in default_keys.items():
+    if key not in st.session_state:
+        st.session_state[key] = val
+
+# 상단 제목
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
-# Step 0: 업종 선택 (2단계 구조로 변경)
+# CEO 이미지 삽입
 st.image("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png", use_column_width=True)
 
+# Step 0: 업종 선택
 if st.session_state.step == 0:
     st.subheader("Step 1: 업종을 선택하세요 🔍")
-
-    if "industry_confirmed" not in st.session_state:
-        st.session_state.industry_confirmed = False
 
     if not st.session_state.industry_confirmed:
         industries = [
@@ -46,7 +46,6 @@ if st.session_state.step == 0:
         if st.button("다음 ▶️"):
             st.session_state.step = 1
 
-
 # Step 1: 회사 이름 입력
 elif st.session_state.step == 1:
     st.subheader("Step 2: 회사 이름을 지어주세요 🏢")
@@ -61,7 +60,7 @@ elif st.session_state.step == 1:
 
     if st.session_state.company_name:
         if st.button("다음 ▶️"):
-            st.session_state.step += 1
+            st.session_state.step = 2
 
 # Step 2: 전략 선택
 elif st.session_state.step == 2:
@@ -79,7 +78,7 @@ elif st.session_state.step == 2:
 
     if st.session_state.strategy:
         if st.button("다음 ▶️"):
-            st.session_state.step += 1
+            st.session_state.step = 3
 
 # Step 3: 전략 결과
 elif st.session_state.step == 3:
@@ -89,7 +88,7 @@ elif st.session_state.step == 3:
     st.write("전략이 적용되어 회사의 기반이 강화되고 있습니다.")
 
     if st.button("다음 ▶️"):
-        st.session_state.step += 1
+        st.session_state.step = 4
 
 # Step 4: 이벤트 발생
 elif st.session_state.step == 4:
@@ -134,10 +133,10 @@ elif st.session_state.step == 4:
         ]
     }
 
-    if st.session_state.event == "":
-        industry_events = all_events.get(st.session_state.industry, [])
-        selected_event = random.choice(industry_events)
-        st.session_state.event = selected_event
+    if not st.session_state.event:
+        events = all_events.get(st.session_state.industry, [])
+        if events:
+            st.session_state.event = random.choice(events)
 
     event_text, multiplier = st.session_state.event
     st.info(f"이벤트 발생: **{event_text}**")
@@ -147,7 +146,7 @@ elif st.session_state.step == 4:
         st.session_state.revenue = [
             int(base * multiplier * random.uniform(0.9, 1.1)) for _ in range(4)
         ]
-        st.session_state.step += 1
+        st.session_state.step = 5
 
 # Step 5: 매출 시뮬레이션
 elif st.session_state.step == 5:
@@ -161,7 +160,7 @@ elif st.session_state.step == 5:
     st.pyplot(fig)
 
     if st.button("다음 ▶️"):
-        st.session_state.step += 1
+        st.session_state.step = 6
 
 # Step 6: 최종 평가
 elif st.session_state.step == 6:
@@ -177,6 +176,5 @@ elif st.session_state.step == 6:
         st.warning("📉 개선이 필요합니다. 전략 재설정과 리스크 관리가 중요합니다.")
 
     if st.button("🔁 처음부터 다시 시작"):
-        for key in st.session_state.keys():
+        for key in list(st.session_state.keys()):
             del st.session_state[key]
-
