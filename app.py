@@ -8,7 +8,7 @@ if "industry" not in st.session_state:
 if "industry_confirmed" not in st.session_state:
     st.session_state.industry_confirmed = False
 
-# 💬 스타일 정의 (배경 + 말풍선 레이아웃)
+# 💬 스타일 정의
 st.markdown("""
     <style>
     .stApp {
@@ -16,33 +16,32 @@ st.markdown("""
         background-size: cover;
         background-position: top center;
         background-repeat: no-repeat;
-        padding: 0;
     }
 
     .speech-wrapper {
         position: absolute;
-        top: 68vh;  /* 💡 인물 얼굴 밑으로 정확히 배치 */
+        top: 68vh;
         left: 50%;
         transform: translateX(-50%);
-        width: 60%;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 2rem;
-        border-radius: 16px;
-        box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+        width: 70%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2.2rem;
+        border-radius: 18px;
+        box-shadow: 0px 10px 20px rgba(0,0,0,0.25);
         text-align: center;
         z-index: 100;
     }
 
     .speech-title {
-        font-size: 20px;
-        font-weight: 700;
+        font-size: 22px;
+        font-weight: bold;
         color: #222;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
 
     .speech-sub {
-        font-size: 15px;
-        color: #555;
+        font-size: 16px;
+        color: #444;
         margin-bottom: 1.5rem;
     }
 
@@ -52,10 +51,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 💬 말풍선 안 내용
+# 🗨️ 말풍선 내부
 st.markdown("<div class='speech-wrapper'>", unsafe_allow_html=True)
 
 if not st.session_state.industry_confirmed:
+    # 아직 업종 선택 전
     st.markdown("<div class='speech-title'>“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”</div>", unsafe_allow_html=True)
     st.markdown("<div class='speech-sub'>어떤 분야에서 승부할지, 네 선택을 보여줘.</div>", unsafe_allow_html=True)
 
@@ -73,7 +73,8 @@ if not st.session_state.industry_confirmed:
         st.session_state.industry_confirmed = True
         st.rerun()
 else:
+    # ✅ 업종 선택 후 멘트도 말풍선 안에!
     st.markdown(f"<div class='speech-title'>“{st.session_state.industry}... 흥미로운 선택이군.”</div>", unsafe_allow_html=True)
-    st.success(f"✅ 이미 선택한 업종: {st.session_state.industry}")
+    st.markdown(f"<div class='speech-sub'>✅ 이미 선택한 업종: {st.session_state.industry}</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
