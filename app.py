@@ -21,13 +21,25 @@ for key, val in default_keys.items():
 # 상단 제목
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
-# CEO 이미지 삽입
+# 배경 이미지 (화면 전체 꽉 채움)
 st.markdown("""
-<div style='margin:0;padding:0;'>
-    <img src="https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png" style='width:100vw; height:auto; display:block; margin:0 auto;' />
-</div>
-""", unsafe_allow_html=True)
+<style>
+    .stApp {
+        background-image: url("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
+    .main-text {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+        margin-top: 60vh;
+    }
+</style>
+""", unsafe_allow_html=True)
 # Step 0: 업종 선택
 if st.session_state.step == 0:
     st.subheader("Step 1: 업종을 선택하세요 🔍")
