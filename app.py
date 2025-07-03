@@ -10,12 +10,24 @@ default_keys = {
     "company_name": "",
     "strategy": "",
     "situation": "",
-    "revenue": [],
-    "industry_confirmed": False
+    "industry_confirmed": False,
+    "score": 0,
+    "history": []
 }
 for key, val in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = val
+
+# 적합한 전략 매핑
+effective_strategies = {
+    "⚠️ 대규모 고객 데이터 유출 발생": "보안 시스템 전면 재구축",
+    "📈 갑작스러운 수요 폭증": "생산 라인 확장",
+    "💸 원자재 가격 급등": "공급처 다변화",
+    "🔥 경쟁사의 파산": "인재 채용 강화",
+    "📉 주요 제품 매출 급감": "제품 리뉴얼",
+    "🏆 대기업으로부터 투자 제안": "지분 일부 매각",
+    "🌍 글로벌 시장 진출 기회": "현지화 전략"
+}
 
 # ✅ 스타일 정의
 st.markdown("""
@@ -142,6 +154,12 @@ elif step == 2:
 
     if st.button("전략 확정"):
         st.session_state.strategy = strategy
+        # 점수 계산
+        if strategy == effective_strategies.get(situation):
+            st.session_state.score += 10
+        else:
+            st.session_state.score += 5
+        st.session_state.history.append((situation, strategy))
         st.session_state.step = 3
 
 elif step == 3:
@@ -149,7 +167,7 @@ elif step == 3:
     st.write(f"**'{st.session_state.company_name}'은 다음과 같은 상황에 직면했습니다:**")
     st.write(f"📌 **{st.session_state.situation}**")
     st.write(f"👉 이에 대한 전략은: **{st.session_state.strategy}**")
-    st.success("전략이 실행되어 조직은 유연하게 대응할 수 있었습니다!")
+    st.write(f"🏆 최종 점수: **{st.session_state.score}점**")
 
     if st.button("🔁 처음부터 다시 시작"):
         for key in list(st.session_state.keys()):
