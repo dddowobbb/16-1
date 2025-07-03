@@ -21,6 +21,9 @@ for key, val in default_keys.items():
 # ✅ 스타일 정의
 st.markdown("""
 <style>
+body {
+    background-color: #e6f0f7; /* 부드러운 푸른 배경색으로 몰입감 향상 */
+}
 .container {
     position: relative;
     width: 100%;
@@ -28,6 +31,7 @@ st.markdown("""
     overflow: hidden;
     margin: 0;
     padding: 0;
+    background-color: #e6f0f7;
 }
 .bg-image {
     position: absolute;
