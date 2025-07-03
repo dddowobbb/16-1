@@ -31,10 +31,10 @@ if st.session_state.step == 0:
     ]
     selected = st.selectbox("회사 업종을 선택해주세요", industries)
 
-    if st.button("업종 확정"):
+    if st.button("확정"):
         st.session_state.industry = selected
         st.success(f"선택된 업종: {selected}")
-        st.session_state.step = 1
+        st.session_state.step += 1
 
 # Step 1: 회사 이름 입력
 elif st.session_state.step == 1:
@@ -46,8 +46,11 @@ elif st.session_state.step == 1:
             st.warning("회사 이름을 입력해주세요!")
         else:
             st.session_state.company_name = company_input.strip()
-            st.success(f"'{st.session_state.company_name}'이(가) 성공적으로 등록되었습니다!")
-            st.session_state.step = 2
+            st.success(f"'{st.session_state.company_name}'이(가) 등록되었습니다!")
+
+    if st.session_state.company_name:
+        if st.button("다음 ▶️"):
+            st.session_state.step += 1
 
 # Step 2: 전략 선택
 elif st.session_state.step == 2:
@@ -59,26 +62,28 @@ elif st.session_state.step == 2:
         "🌐 해외 시장 진출 확대"
     ])
 
-    if st.button("이 전략으로 결정"):
+    if st.button("전략 확정"):
         st.session_state.strategy = strategy
         st.success(f"선택된 전략: {strategy}")
-        st.session_state.step = 3
+
+    if st.session_state.strategy:
+        if st.button("다음 ▶️"):
+            st.session_state.step += 1
 
 # Step 3: 전략 결과
 elif st.session_state.step == 3:
     st.subheader("Step 4: 전략 결과 📊")
     st.write(f"**{st.session_state.industry}** 업종의 **'{st.session_state.company_name}'** 회사는")
     st.write(f"**{st.session_state.strategy}** 전략을 채택하였습니다.")
-    st.write("전략이 적용되어 회사의 기반이 탄탄해지고 있습니다.")
+    st.write("전략이 적용되어 회사의 기반이 강화되고 있습니다.")
 
-    if st.button("다음 단계로 ▶️"):
-        st.session_state.step = 4
+    if st.button("다음 ▶️"):
+        st.session_state.step += 1
 
 # Step 4: 이벤트 발생
 elif st.session_state.step == 4:
     st.subheader("Step 5: 예기치 못한 사건 발생 ⚠️")
 
-    # 업종별 맞춤 이벤트
     all_events = {
         "💻 IT 스타트업": [
             ("🌟 투자 유치 성공!", 1.3),
@@ -126,13 +131,12 @@ elif st.session_state.step == 4:
     event_text, multiplier = st.session_state.event
     st.info(f"이벤트 발생: **{event_text}**")
 
-    if st.button("매출 시뮬레이션 ▶️"):
-        # 수익 시뮬레이션
+    if st.button("다음 ▶️"):
         base = 100
         st.session_state.revenue = [
             int(base * multiplier * random.uniform(0.9, 1.1)) for _ in range(4)
         ]
-        st.session_state.step = 5
+        st.session_state.step += 1
 
 # Step 5: 매출 시뮬레이션
 elif st.session_state.step == 5:
@@ -145,22 +149,10 @@ elif st.session_state.step == 5:
     ax.set_title("분기별 매출 추이")
     st.pyplot(fig)
 
-    if st.button("최종 평가 보기 ▶️"):
-        st.session_state.step = 6
+    if st.button("다음 ▶️"):
+        st.session_state.step += 1
 
 # Step 6: 최종 평가
 elif st.session_state.step == 6:
     st.subheader("🏁 최종 경영 평가")
-    total = sum(st.session_state.revenue)
-    st.write(f"**'{st.session_state.company_name}'**의 연간 총 매출은 **{total}억 원**입니다.")
-
-    if total >= 450:
-        st.success("🎉 훌륭한 성과! 투자자와 언론의 찬사를 받았습니다.")
-    elif total >= 350:
-        st.info("👍 안정적인 운영! 더 큰 도약이 기대됩니다.")
-    else:
-        st.warning("📉 개선이 필요합니다. 전략 재설정과 리스크 관리가 중요합니다.")
-
-    if st.button("🔁 처음부터 다시 시작"):
-        for key in st.session_state.keys():
-            del st.session_state[key]
+    total = sum(st.session_sta_
