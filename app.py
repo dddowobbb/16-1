@@ -2,7 +2,6 @@ import streamlit as st
 import random
 import matplotlib.pyplot as plt
 
-# 전체 화면 레이아웃
 st.set_page_config(layout="wide")
 
 # 세션 상태 초기화
@@ -19,46 +18,51 @@ for key, val in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = val
 
-# ✅ CSS: 이미지 배경 + 말풍선 정확한 위치 조정
+# ✅ 스타일 정의
 st.markdown("""
-    <style>
-        .container {
-            position: relative;
-            width: 100%;
-            height: 90vh;
-            overflow: hidden;
-        }
-        .bg-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .speech-bubble {
-            position: absolute;
-            top: 67vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 75%;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px 30px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-        .speech-title {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #222;
-        }
-        .speech-sub {
-            margin-top: 10px;
-            font-size: 1.1rem;
-            color: #444;
-        }
-    </style>
+<style>
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+.speech-bubble {
+    position: absolute;
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 1;
+}
+.speech-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+}
+.speech-sub {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #444;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# 🎤 말풍선 대사 설정 함수
+# ✅ 대사 선택
 def get_speech():
     step = st.session_state.step
     if step == 0 and not st.session_state.industry_confirmed:
@@ -80,18 +84,19 @@ def get_speech():
     else:
         return "", ""
 
-# 💬 CEO 말풍선 출력
+# ✅ 배경 + 말풍선 출력
 title_text, sub_text = get_speech()
-st.markdown("""
+st.markdown(f"""
 <div class="container">
     <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png" />
     <div class="speech-bubble">
+        <div class="speech-title">{title_text}</div>
+        <div class="speech-sub">{sub_text}</div>
+    </div>
+</div>
 """, unsafe_allow_html=True)
-st.markdown(f"<div class='speech-title'>{title_text}</div>", unsafe_allow_html=True)
-st.markdown(f"<div class='speech-sub'>{sub_text}</div>", unsafe_allow_html=True)
-st.markdown("</div></div>", unsafe_allow_html=True)
 
-# 📊 아래 UI 부분
+# ✅ 아래 실제 콘텐츠 흐름
 step = st.session_state.step
 
 if step == 0:
