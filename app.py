@@ -8,54 +8,55 @@ if "industry" not in st.session_state:
 if "industry_confirmed" not in st.session_state:
     st.session_state.industry_confirmed = False
 
-# 💡 배경 이미지 + 말풍선 스타일
+# 💬 스타일 정의 (배경 + 말풍선 레이아웃)
 st.markdown("""
-<style>
+    <style>
     .stApp {
-        background: url("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png");
+        background-image: url("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png");
         background-size: cover;
-        background-position: center;
+        background-position: top center;
         background-repeat: no-repeat;
+        padding: 0;
     }
 
-    .speech-box {
-        position: relative;
-        top: 65vh;  /* 얼굴 밑으로 내려서 겹치게 */
-        margin: 0 auto;
+    .speech-wrapper {
+        position: absolute;
+        top: 68vh;  /* 💡 인물 얼굴 밑으로 정확히 배치 */
+        left: 50%;
+        transform: translateX(-50%);
         width: 60%;
-        background: rgba(255, 255, 255, 0.85);
-        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
         border-radius: 16px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-        z-index: 2;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
         text-align: center;
+        z-index: 100;
     }
 
-    .speech-text {
+    .speech-title {
         font-size: 20px;
-        font-weight: bold;
+        font-weight: 700;
         color: #222;
         margin-bottom: 0.5rem;
     }
 
     .speech-sub {
-        font-size: 16px;
+        font-size: 15px;
         color: #555;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
 
     .block-container {
-        padding-top: 0rem;
+        padding-top: 0rem !important;
     }
-</style>
+    </style>
 """, unsafe_allow_html=True)
 
-# 🗣️ 말풍선 안의 텍스트 및 선택 UI
-st.markdown("<div class='speech-box'>", unsafe_allow_html=True)
+# 💬 말풍선 안 내용
+st.markdown("<div class='speech-wrapper'>", unsafe_allow_html=True)
 
-# CEO 말풍선 멘트
 if not st.session_state.industry_confirmed:
-    st.markdown("<div class='speech-text'>“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”</div>", unsafe_allow_html=True)
+    st.markdown("<div class='speech-title'>“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”</div>", unsafe_allow_html=True)
     st.markdown("<div class='speech-sub'>어떤 분야에서 승부할지, 네 선택을 보여줘.</div>", unsafe_allow_html=True)
 
     industries = [
@@ -70,9 +71,9 @@ if not st.session_state.industry_confirmed:
     if st.button("업종 확정"):
         st.session_state.industry = selected
         st.session_state.industry_confirmed = True
-        st.success(f"✅ 선택된 업종: {selected}")
+        st.rerun()
 else:
-    st.markdown(f"<div class='speech-text'>“{st.session_state.industry}... 흥미로운 선택이군.”</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='speech-title'>“{st.session_state.industry}... 흥미로운 선택이군.”</div>", unsafe_allow_html=True)
     st.success(f"✅ 이미 선택한 업종: {st.session_state.industry}")
 
 st.markdown("</div>", unsafe_allow_html=True)
