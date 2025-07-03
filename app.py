@@ -26,13 +26,14 @@ st.markdown("""
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
 }
 .bg-image {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     object-fit: cover;
     z-index: 0;
 }
@@ -41,7 +42,7 @@ st.markdown("""
     bottom: 8vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 75%;
+    width: 70%;
     background: rgba(255, 255, 255, 0.95);
     padding: 25px 30px;
     border-radius: 25px;
@@ -62,7 +63,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 대사 선택
+# 대사 설정 함수
 def get_speech():
     step = st.session_state.step
     if step == 0 and not st.session_state.industry_confirmed:
@@ -84,7 +85,7 @@ def get_speech():
     else:
         return "", ""
 
-# ✅ 배경 + 말풍선 출력
+# 배경과 말풍선 출력
 title_text, sub_text = get_speech()
 st.markdown(f"""
 <div class="container">
@@ -96,16 +97,13 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ✅ 아래 실제 콘텐츠 흐름
+# 아래에 단계별 UI 흐름
 step = st.session_state.step
 
 if step == 0:
     st.markdown("### Step 1: 업종 선택")
     if not st.session_state.industry_confirmed:
-        industries = [
-            "💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사",
-            "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"
-        ]
+        industries = ["💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사", "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"]
         selected = st.selectbox("회사 업종을 선택해주세요", industries)
         if st.button("업종 확정"):
             st.session_state.industry = selected
@@ -161,9 +159,7 @@ elif step == 4:
     event_text, multiplier = st.session_state.event
     st.info(f"이벤트 발생: {event_text}")
     if st.button("다음 ▶️"):
-        st.session_state.revenue = [
-            int(100 * multiplier * random.uniform(0.9, 1.1)) for _ in range(4)
-        ]
+        st.session_state.revenue = [int(100 * multiplier * random.uniform(0.9, 1.1)) for _ in range(4)]
         st.session_state.step = 5
 
 elif step == 5:
