@@ -16,29 +16,17 @@ default_keys = {
 for key, val in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = val
-st.markdown("""
-<style>
-    .block-container {
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
 
-    header, footer, .viewerBadge_container__1QSob {
-        visibility: hidden;
-    }
-</style>
-""", unsafe_allow_html=True)
 
 # 상단 제목
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
 # CEO 이미지 삽입
-st.image(
-    "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png",
-    use_container_width=True
-)
+st.markdown("""
+<div style='margin:0;padding:0;'>
+    <img src="https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png" style='width:100vw; height:auto; display:block; margin:0 auto;' />
+</div>
+""", unsafe_allow_html=True)
 
 # Step 0: 업종 선택
 if st.session_state.step == 0:
