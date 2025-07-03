@@ -18,20 +18,24 @@ if "revenue" not in st.session_state:
 
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
-# Step 0: 업종 선택
+# Step 0: 업종 선택 (2단계 구조로 변경)
 if st.session_state.step == 0:
     st.subheader("Step 1: 업종을 선택하세요 🔍")
-    industries = [
-        "💻 IT 스타트업",
-        "🌱 친환경 제품",
-        "🎮 게임 개발사",
-        "👗 패션 브랜드",
-        "🍔 푸드테크",
-        "🛒 글로벌 전자상거래"
-    ]
-    selected = st.selectbox("회사 업종을 선택해주세요", industries)
 
-if st.button("업종 확정"):
+    if "industry_confirmed" not in st.session_state:
+        st.session_state.industry_confirmed = False
+
+    if not st.session_state.industry_confirmed:
+        industries = [
+            "💻 IT 스타트업",
+            "🌱 친환경 제품",
+            "🎮 게임 개발사",
+            "👗 패션 브랜드",
+            "🍔 푸드테크",
+            "🛒 글로벌 전자상거래"
+        ]
+        selected = st.selectbox("회사 업종을 선택해주세요", industries)
+        if st.button("업종 확정"):
             st.session_state.industry = selected
             st.session_state.industry_confirmed = True
             st.success(f"선택된 업종: {selected}")
@@ -39,6 +43,7 @@ if st.button("업종 확정"):
         st.info(f"✅ 선택된 업종: **{st.session_state.industry}**")
         if st.button("다음 ▶️"):
             st.session_state.step = 1
+
 
 # Step 1: 회사 이름 입력
 elif st.session_state.step == 1:
