@@ -16,6 +16,20 @@ default_keys = {
 for key, val in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = val
+st.markdown("""
+<style>
+    .block-container {
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    header, footer, .viewerBadge_container__1QSob {
+        visibility: hidden;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # 상단 제목
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
