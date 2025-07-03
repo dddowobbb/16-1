@@ -1,13 +1,12 @@
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
+import matplotlib as mpl
+
+# ✅ 한글 폰트 설정 (Windows 기준: Malgun Gothic)
+mpl.rcParams['font.family'] = 'AppleGothic'
 
 st.set_page_config(layout="wide")
-
-# NanumGothic 폰트 설정
-font_path = "NanumGothic.ttf"
-font_prop = fm.FontProperties(fname=font_path)
 
 # 세션 상태 초기화
 default_keys = {
@@ -63,13 +62,11 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockCont
     font-size: 1.5rem;
     font-weight: bold;
     color: #222;
-    font-family: NanumGothic, sans-serif;
 }
 .speech-sub {
     margin-top: 10px;
     font-size: 1.1rem;
     color: #444;
-    font-family: NanumGothic, sans-serif;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -96,7 +93,7 @@ def get_speech():
     else:
         return "", ""
 
-# 배경과 말풍선 출력
+# 배경 이미지 + 말풍선 출력
 title_text, sub_text = get_speech()
 st.markdown(f"""
 <div class="container">
@@ -108,7 +105,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 아래에 단계별 UI 흐름
+# 단계별 UI 흐름
 step = st.session_state.step
 
 if step == 0:
@@ -178,10 +175,8 @@ elif step == 5:
     quarters = ["1분기", "2분기", "3분기", "4분기"]
     fig, ax = plt.subplots()
     ax.plot(quarters, st.session_state.revenue, marker='o')
-    ax.set_ylabel("매출 (억 원)", fontproperties=font_prop)
-    ax.set_title("분기별 매출 추이", fontproperties=font_prop)
-    for label in ax.get_xticklabels() + ax.get_yticklabels():
-        label.set_fontproperties(font_prop)
+    ax.set_ylabel("매출 (억 원)")
+    ax.set_title("분기별 매출 추이")
     st.pyplot(fig)
     if st.button("다음 ▶️"):
         st.session_state.step = 6
