@@ -19,7 +19,8 @@ if "revenue" not in st.session_state:
 st.title("📈 경영 시뮬레이터: 나만의 회사를 만들어보자!")
 
 # Step 0: 업종 선택 (2단계 구조로 변경)
-st.image("talking ceo.png", use_column_width=True)
+st.image("https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png", use_column_width=True)
+
 if st.session_state.step == 0:
     st.subheader("Step 1: 업종을 선택하세요 🔍")
 
