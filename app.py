@@ -22,7 +22,7 @@ for key, val in default_keys.items():
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
-    background-color: #f9f5ef !important;
+    background-color: #1a1a1a !important;
 }
 .container {
     position: relative;
@@ -31,7 +31,7 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockCont
     overflow: hidden;
     margin: 0;
     padding: 0;
-    background-color: #f9f5ef;
+    background-color: #1a1a1a;
 }
 .bg-image {
     position: absolute;
