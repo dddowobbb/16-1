@@ -31,10 +31,14 @@ if st.session_state.step == 0:
     ]
     selected = st.selectbox("회사 업종을 선택해주세요", industries)
 
-    if st.button("확정"):
-        st.session_state.industry = selected
-        st.success(f"선택된 업종: {selected}")
-        st.session_state.step += 1
+if st.button("업종 확정"):
+            st.session_state.industry = selected
+            st.session_state.industry_confirmed = True
+            st.success(f"선택된 업종: {selected}")
+    else:
+        st.info(f"✅ 선택된 업종: **{st.session_state.industry}**")
+        if st.button("다음 ▶️"):
+            st.session_state.step = 1
 
 # Step 1: 회사 이름 입력
 elif st.session_state.step == 1:
@@ -155,4 +159,17 @@ elif st.session_state.step == 5:
 # Step 6: 최종 평가
 elif st.session_state.step == 6:
     st.subheader("🏁 최종 경영 평가")
-    total = sum(st.session_sta_
+    total = sum(st.session_state.revenue)
+    st.write(f"**'{st.session_state.company_name}'**의 연간 총 매출은 **{total}억 원**입니다.")
+
+    if total >= 450:
+        st.success("🎉 훌륭한 성과! 투자자와 언론의 찬사를 받았습니다.")
+    elif total >= 350:
+        st.info("👍 안정적인 운영! 더 큰 도약이 기대됩니다.")
+    else:
+        st.warning("📉 개선이 필요합니다. 전략 재설정과 리스크 관리가 중요합니다.")
+
+    if st.button("🔁 처음부터 다시 시작"):
+        for key in st.session_state.keys():
+            del st.session_state[key]
+
