@@ -21,8 +21,8 @@ for key, val in default_keys.items():
 # ✅ 스타일 정의
 st.markdown("""
 <style>
-body {
-    background-color: #e6f0f7; /* 부드러운 푸른 배경색으로 몰입감 향상 */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
+    background-color: #f9f5ef !important;
 }
 .container {
     position: relative;
@@ -31,7 +31,7 @@ body {
     overflow: hidden;
     margin: 0;
     padding: 0;
-    background-color: #e6f0f7;
+    background-color: #f9f5ef;
 }
 .bg-image {
     position: absolute;
